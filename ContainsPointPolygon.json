@@ -1,0 +1,18 @@
+{
+    "id": "ContainsPointPolygon",
+    "name": "Contains Point Polygon",
+    "description": [ 
+        "<img src=\"@@@_d/must_be_covered_by_endpoint_of.png\">\n",     
+        " "
+	    
+    ],
+    "actions" : {
+        "DeletePoint": {
+            "name" : "Delete Point",
+            "description": [ 
+            "This action delete the point errors"
+            ]
+        }
+    }
+}
+
