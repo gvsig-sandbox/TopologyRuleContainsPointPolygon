@@ -21,8 +21,8 @@ class ContainsPointPolygonRuleFactory(AbstractTopologyRuleFactory):
             "ContainsPointPolygon",
             "contains Point Polygon",
             "This rule requires that",
-            ListBuilder().add(Geometry.TYPES.POINT).add(Geometry.TYPES.MULTIPOINT).asList(),
-            ListBuilder().add(Geometry.TYPES.SURFACE).add(Geometry.TYPES.MULTISURFACE).asList()
+            ListBuilder().add(Geometry.TYPES.SURFACE).add(Geometry.TYPES.MULTISURFACE).asList(),
+            ListBuilder().add(Geometry.TYPES.POINT).add(Geometry.TYPES.MULTIPOINT).asList()
         )
     
     def createRule(self, plan, dataSet1, dataSet2, tolerance):
