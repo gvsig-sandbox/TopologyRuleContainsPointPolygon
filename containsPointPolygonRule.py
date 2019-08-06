@@ -81,12 +81,12 @@ class ContainsPointPolygonRule(AbstractTopologyRule):
                     if geometryType1.getType() == geom.MULTISURFACE:
                         n1 = polygon1.getPrimitivesNumber()
                         for i in range(0, n1 + 1):
-                            if not self.intersects(polygon1, theDataSet2):
+                            if not self.intersects(polygon1.getSurfaceAt(i), theDataSet2):
                                 report.addLine(self,
                                     self.getDataSet1(),
                                     self.getDataSet2(),
                                     polygon1,
-                                    polygon1.getPointAt(i),
+                                    polygon1.getSurfaceAt(i),
                                     feature1.getReference(), 
                                     None,
                                     i,
