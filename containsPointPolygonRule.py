@@ -13,7 +13,7 @@ from org.gvsig.topology.lib.spi import AbstractTopologyRule
 
 from deletePolygonAction import DeletePolygonAction
 
-class MustBeCoincidentWithPointRule(AbstractTopologyRule):
+class ContainsPointPolygonRule(AbstractTopologyRule):
     
     geomName = None
     expression = None
