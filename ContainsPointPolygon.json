@@ -3,15 +3,17 @@
     "name": "Contains Point Polygon",
     "description": [ 
         "<img src=\"@@@_d/containsPoint.png\">\n",     
-        "In this rule, it is required that each polygon of the input layer contain at least one point from the coverage layer of points.",
-		"Points must be within the polygon, not on the boundary."
+        "In this rule, it is required that each polygon of the input layer contains at least one point from the coverage layer of points.",
+	" Points must be within the polygon, not on the boundary."
 	    
     ],
     "actions" : {
         "DeletePolygon": {
             "name" : "Delete Polygon",
             "description": [ 
-            "This action delete the polygons errors"
+            "This action delete the polygons errors",
+	    " Polygons that not contains at least one point from the points layer must be deleted.",
+	    " The delete action removes polygon entities that contains point."
             ]
         }
     }
