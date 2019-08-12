@@ -13,7 +13,7 @@
             "description": [ 
             "This action delete the polygons errors",
 	    " Polygons that not contains at least one point from the points layer must be deleted.",
-	    " The delete action removes polygon entities that contains point."
+	    " The delete action removes polygon entities that not contains points."
             ]
         }
     }
