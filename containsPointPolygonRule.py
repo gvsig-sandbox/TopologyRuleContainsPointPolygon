@@ -11,9 +11,9 @@ from org.gvsig.expressionevaluator import ExpressionEvaluatorLocator
 from org.gvsig.topology.lib.api import TopologyLocator
 from org.gvsig.topology.lib.spi import AbstractTopologyRule
 
-from deletePointAction import DeletePointAction
+from deletePolygonAction import DeletePolygonAction
 
-class ContainsPointPolygonRule(AbstractTopologyRule):
+class MustBeCoincidentWithPointRule(AbstractTopologyRule):
     
     geomName = None
     expression = None
@@ -21,15 +21,15 @@ class ContainsPointPolygonRule(AbstractTopologyRule):
     
     def __init__(self, plan, factory, tolerance, dataSet1, dataSet2):
         AbstractTopologyRule.__init__(self, plan, factory, tolerance, dataSet1, dataSet2)
-        self.addAction(DeletePointAction())
+        self.addAction(DeletePolygonAction())
     
-    def intersects(self, polygon1, theDataSet2):
+    def contains(self, polygon1, theDataSet2):
+        result = False
         if theDataSet2.getSpatialIndex() != None:
-            result = False
             for featureReference in theDataSet2.query(polygon1):
                 feature2 = featureReference.getFeature()
                 point2 = feature2.getDefaultGeometry()
-                if polygon1.intersects(point2):
+                if polygon1.contains(point2):
                     result = True
                     break
         else:
@@ -43,27 +43,24 @@ class ContainsPointPolygonRule(AbstractTopologyRule):
                 self.expressionBuilder.ifnull(
                     self.expressionBuilder.column(self.geomName),
                     self.expressionBuilder.constant(False),
-                    self.expressionBuilder.ST_Intersects(
+                    self.expressionBuilder.ST_Contains(
                         self.expressionBuilder.geometry(polygon1),
                         self.expressionBuilder.column(self.geomName)
                     )
                 ).toString()
             )
-            if theDataSet2.findFirst(self.expression) == None:
-                result = False
-            else:
+            if theDataSet2.findFirst(self.expression) != None:
                 result = True
         return result
     
     def check(self, taskStatus, report, feature1):
         try:
             polygon1 = feature1.getDefaultGeometry()
-            tolerance1 = self.getTolerance()
             theDataSet2 = self.getDataSet2()
             geometryType1 = polygon1.getGeometryType()
             if geometryType1.getSubType() == geom.D2 or geometryType1.getSubType() == geom.D2M:
-                if geometryType1.getType() == geom.SURFACE:
-                    if not self.intersects(polygon1, theDataSet2):
+                if geometryType1.getType() == geom.POLYGON:
+                    if not self.contains(polygon1, theDataSet2):
                         report.addLine(self,
                             self.getDataSet1(),
                             self.getDataSet2(),
@@ -74,14 +71,14 @@ class ContainsPointPolygonRule(AbstractTopologyRule):
                             -1,
                             -1,
                             False,
-                            "Geometry Type: Polygon not contains point",
+                            "Geometry Type: polygon1 not contains points.",
                             ""
                         )
                 else:
-                    if geometryType1.getType() == geom.MULTISURFACE:
-                        n1 = polygon1.getPrimitivesNumber()
+                    if geometryType1.getType() == geom.MULTIPOLYGON:
+                        n1 = point1.getPrimitivesNumber()
                         for i in range(0, n1 + 1):
-                            if not self.intersects(polygon1.getSurfaceAt(i), theDataSet2):
+                            if not self.contains(polygon1.getSurfaceAt(i), theDataSet2):
                                 report.addLine(self,
                                     self.getDataSet1(),
                                     self.getDataSet2(),
@@ -92,7 +89,7 @@ class ContainsPointPolygonRule(AbstractTopologyRule):
                                     i,
                                     -1,
                                     False,
-                                    "Geometry Type multiPolygon not contains point",
+                                    "Geometry Type multiPolygon not contains points.",
                                     ""
                                 )
             else:

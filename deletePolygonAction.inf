@@ -5,7 +5,7 @@ Lang = python
 
 [Unit]
 type = Script
-name = deletePointAction
+name = deletePolygonAction
 description = 
 createdBy = 
 version = 

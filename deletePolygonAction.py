@@ -5,18 +5,19 @@ import sys
 
 from org.gvsig.topology.lib.spi import AbstractTopologyRuleAction
 
-class DeletePointAction(AbstractTopologyRuleAction):
+class DeletePolygonAction(AbstractTopologyRuleAction):
     
     def __init__(self):
         AbstractTopologyRuleAction.__init__(
             self,
 			"containsPointPolygon",
-            "DeletePointAction",
-            "Delete Point Action",
+            "DeletePolygonAction",
+            "Delete Polygon Action",
             ""
         )
     
     def execute(self, rule, line, parameters):
+	#TopologyRule rule, TopologyReportLine line, DynObject parameters) {
         try:
             dataSet = rule.getDataSet1()
             dataSet.delete(line.getFeature1())
