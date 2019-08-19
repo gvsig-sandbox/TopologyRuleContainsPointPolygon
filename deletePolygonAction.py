@@ -10,14 +10,13 @@ class DeletePolygonAction(AbstractTopologyRuleAction):
     def __init__(self):
         AbstractTopologyRuleAction.__init__(
             self,
-	    "containsPointPolygon",
+            "containsPointPolygon",
             "DeletePolygonAction",
             "Delete Polygon Action",
             " Polygons that not contains at least one point from the points layer must be deleted. The delete action removes polygon entities that not contains points."
         )
     
     def execute(self, rule, line, parameters):
-	#TopologyRule rule, TopologyReportLine line, DynObject parameters) {
         try:
             dataSet = rule.getDataSet1()
             dataSet.delete(line.getFeature1())

@@ -19,7 +19,7 @@ class ContainsPointPolygonRuleFactory(AbstractTopologyRuleFactory):
         AbstractTopologyRuleFactory.__init__(
             self,
             "ContainsPointPolygon",
-            "contains Point Polygon",
+            "Contains Point Polygon",
             "This rule requires that each polygon of the input layer contain at least one point from the coverage layer of points. Points must be within the polygon, not on the boundary.",
             ListBuilder().add(Geometry.TYPES.SURFACE).add(Geometry.TYPES.MULTISURFACE).asList(),
             ListBuilder().add(Geometry.TYPES.POINT).add(Geometry.TYPES.MULTIPOINT).asList()

@@ -59,7 +59,7 @@ class ContainsPointPolygonRule(AbstractTopologyRule):
             theDataSet2 = self.getDataSet2()
             geometryType1 = polygon1.getGeometryType()
             if geometryType1.getSubType() == geom.D2 or geometryType1.getSubType() == geom.D2M:
-                if geometryType1.getType() == geom.POLYGON:
+                if geometryType1.getType() == geom.POLYGON or geometryType1.isTypeOf(geom.POLYGON):
                     if not self.contains(polygon1, theDataSet2):
                         report.addLine(self,
                             self.getDataSet1(),
@@ -71,11 +71,11 @@ class ContainsPointPolygonRule(AbstractTopologyRule):
                             -1,
                             -1,
                             False,
-                            "Geometry Type: polygon1 not contains points.",
+                            "Geometry type polygon doesn't contain points.",
                             ""
                         )
                 else:
-                    if geometryType1.getType() == geom.MULTIPOLYGON:
+                    if geometryType1.getType() == geom.MULTIPOLYGON or geometryType1.isTypeOf(geom.MULTIPOLYGON):
                         n1 = point1.getPrimitivesNumber()
                         for i in range(0, n1 + 1):
                             if not self.contains(polygon1.getSurfaceAt(i), theDataSet2):
@@ -89,7 +89,7 @@ class ContainsPointPolygonRule(AbstractTopologyRule):
                                     i,
                                     -1,
                                     False,
-                                    "Geometry Type multiPolygon not contains points.",
+                                    "Geometry type multipolygon doesn't contain points.",
                                     ""
                                 )
             else:
